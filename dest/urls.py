@@ -17,8 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-from destapi.views import check_user, register_user, DestinationView
-from destapi.views import check_user, register_user, ActivityView, DestActView, ClimateView, UserView
+from destapi.views import check_user, register_user, ActivityView, DestActView, ClimateView, UserView, DestinationView
 
 
 router = routers.DefaultRouter(trailing_slash=False)
