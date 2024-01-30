@@ -20,8 +20,8 @@ def check_user(request):
     if user is not None:
         data = {
             'id': user.id,
+            'name': '',
             'uid': user.uid,
-            'username': user.username,
         }
         return Response(data)
     else:
@@ -40,13 +40,13 @@ def register_user(request):
 
     user = User.objects.create(
         uid=request.data['uid'],
-        username=request.data['username']
+        name=request.data['name']
     )
 
     # Return the user info to the client
     data = {
         'id': user.id,
         'uid': user.uid,
-        'username': user.username,
+        'name': user.name,
     }
     return Response(data)
