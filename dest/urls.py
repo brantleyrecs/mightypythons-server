@@ -17,20 +17,16 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-<<<<<<< HEAD
 from destapi.views import check_user, register_user, DestinationView
+from destapi.views import check_user, register_user, ActivityView, DestActView, ClimateView, UserView
+
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'destinations', DestinationView, 'destination')
-=======
-from destapi.views import check_user, register_user, ActivityView, DestActView, ClimateView, UserView
-
-router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'activites', ActivityView, 'activity')
 router.register(r'destacts', DestActView, 'destact')
 router.register(r'climates', ClimateView, 'climate')
 router.register(r'users', UserView, 'user')
->>>>>>> main
 
 urlpatterns = [
     path('admin/', admin.site.urls),
