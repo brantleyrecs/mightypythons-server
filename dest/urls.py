@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-from destapi.views import check_user, register_user, ActivityView
+from destapi.views import check_user, register_user, ActivityView, DestActView
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'activites', ActivityView, 'activity')
+router.register(r'destacts', DestActView, 'destact')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
