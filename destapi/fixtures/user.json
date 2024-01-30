@@ -1,0 +1,18 @@
+[
+  {
+    "model": "destapi.user",
+    "pk": 1,
+    "fields": {
+      "name": "Brantley",
+      "uid": "firebaseTest"
+    }
+  },
+  {
+    "model": "destapi.user",
+    "pk": 2,
+    "fields": {
+      "name": "Nikol",
+      "uid": "firebaseTest"
+    }
+  }
+]
