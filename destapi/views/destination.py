@@ -9,9 +9,12 @@ class DestinationView(ViewSet):
   
   def retrieve(self, request, pk):
     """getting single Destination"""
-    destination = Destination.objects.get(pk=pk)
-    serializer = DestinationSerializer(destination)
-    return Response(serializer.data)
+    try:
+        destination = Destination.objects.get(pk=pk)
+        serializer = DestinationSerializer(destination)
+        return Response(serializer.data)
+    except Destination.DoesNotExist as ex:
+        return Response({'Destination does not exist': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
   
   def list(self, request):
     """Getting all Destinations"""
@@ -36,17 +39,20 @@ class DestinationView(ViewSet):
   
   def update(self, request, pk):
     """Update Destination"""
-    destination = Destination.objects.get(pk=pk)
-    destination.name=request.data["name"]
-    destination.bio=request.data["bio"]
-    destination.image=request.data["image"]
+    try:
+        destination = Destination.objects.get(pk=pk)
+        destination.name=request.data["name"]
+        destination.bio=request.data["bio"]
+        destination.image=request.data["image"]
     
-    user_id=User.objects.get(pk=request.data["userId"])
-    destination.user=user_id
+        user_id=User.objects.get(pk=request.data["userId"])
+        destination.user=user_id
     
-    destination.save()
-    serializer = DestinationSerializer(destination)
-    return Response(serializer.data)
+        destination.save()
+        serializer = DestinationSerializer(destination)
+        return Response(serializer.data)
+    except Destination.DoesNotExist as ex:
+        return Response({'Destination does not exist': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
   
   def destroy(self, request, pk):
     """Delete Destination"""

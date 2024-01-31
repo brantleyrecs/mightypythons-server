@@ -55,16 +55,18 @@ class DestActView(ViewSet):
         Returns:
           Response -- Empty body with 204 status code
         """
-
-        destAct = DestAct.objects.get(pk=pk)
+        try:
+            destAct = DestAct.objects.get(pk=pk)
         
-        destination = Destination.objects.get(pk=request.data['destination'])
-        activity = Activity.objects.get(pk=request.data['activity'])
+            destination = Destination.objects.get(pk=request.data['destination'])
+            activity = Activity.objects.get(pk=request.data['activity'])
       
-        destAct.destination = destination
-        destAct.activity = activity
+            destAct.destination = destination
+            destAct.activity = activity
 
-        destAct.save()
+            destAct.save()
+        except DestAct.DoesNotExist as ex:
+            return Response({'DestAct join table does not exist': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
         
         serializer = DestActSerializer(destAct, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)

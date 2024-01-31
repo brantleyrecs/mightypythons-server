@@ -52,15 +52,17 @@ class ClimateView(ViewSet):
         Returns:
           Response -- Empty body with 204 status code
         """
-
-        climate = Climate.objects.get(pk=pk)
+        try:
+            climate = Climate.objects.get(pk=pk)
       
-        climate.name = request.data["name"]
+            climate.name = request.data["name"]
 
-        climate.save()
+            climate.save()
         
-        serializer = ClimateSerializer(climate, many=False)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            serializer = ClimateSerializer(climate, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Climate.DoesNotExist as ex:
+            return Response({'Climate does not exist': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
     
     def destroy(self, response, pk):
         """Deletes Data
