@@ -1,0 +1,16 @@
+[
+  {
+    "model": "destapi.climate",
+    "pk": 1,
+    "fields": {
+      "name": "Tropical"
+    }
+  },
+  {
+    "model": "destapi.climate",
+    "pk": 2,
+    "fields": {
+      "name": "Dry"
+    }
+  }
+]

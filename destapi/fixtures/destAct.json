@@ -1,0 +1,18 @@
+[
+  {
+    "model": "destapi.destAct",
+    "pk": 1,
+    "fields": {
+      "destination": 1,
+      "activity": 2
+    }
+  },
+  {
+    "model": "destapi.destAct",
+    "pk": 2,
+    "fields": {
+      "destination": 2,
+      "activity": 1
+    }
+  }
+]
