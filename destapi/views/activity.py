@@ -68,7 +68,7 @@ class ActivityView(ViewSet):
         """
         activity = Activity.objects.get(pk=pk)
         activity.delete()
-        return response(None, status=status.HTTP_204_NO_CONTENT)
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
         
 
 class ActivitySerializer(serializers.ModelSerializer):
