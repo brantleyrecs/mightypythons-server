@@ -1,0 +1,22 @@
+[
+  {
+    "model": "destapi.destination",
+    "pk": 1,
+    "fields": {
+      "name": "Bahamas",
+      "bio": "beautiful islands",
+      "image": "test",
+      "user": 2
+    }
+  },
+  {
+    "model": "destapi.destination",
+    "pk": 2,
+    "fields": {
+      "name": "Mexico",
+      "bio": "amazing tacos",
+      "image": "test",
+      "user": 2
+    }
+  }
+]
