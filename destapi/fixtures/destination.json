@@ -6,7 +6,8 @@
       "name": "Bahamas",
       "bio": "beautiful islands",
       "image": "test",
-      "user": 2
+      "user": 2,
+      "climate": 1
     }
   },
   {
@@ -16,7 +17,8 @@
       "name": "Mexico",
       "bio": "amazing tacos",
       "image": "test",
-      "user": 2
+      "user": 2,
+      "climate": 2
     }
   }
 ]
