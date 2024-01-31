@@ -66,7 +66,7 @@ class ClimateView(ViewSet):
         """
         climate = Climate.objects.get(pk=pk)
         climate.delete()
-        return response(None, status=status.HTTP_204_NO_CONTENT)
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
         
 
 class ClimateSerializer(serializers.ModelSerializer):
