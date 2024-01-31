@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from rest_framework import serializers, status
 from rest_framework.decorators import action
-from destapi.models import Destination, User, DestAct, Activity
+from destapi.models import Destination, User, DestAct, Activity, Climate
 from destapi.views.activity import ActivitySerializer
 
 class DestinationView(ViewSet):
@@ -23,8 +23,10 @@ class DestinationView(ViewSet):
   def create(self, request):
     """Create Destination"""
     user_id = User.objects.get(pk=request.data["userId"])
+    climate_id = Climate.objects.get(pk=request.data["climateId"])
     
     destination = Destination.objects.create(
+      climate=climate_id,
       user=user_id,
       name=request.data["name"],
       bio=request.data["bio"],
@@ -44,6 +46,9 @@ class DestinationView(ViewSet):
     
     user_id=User.objects.get(pk=request.data["userId"])
     destination.user=user_id
+    
+    climate_id=Climate.objects.get(pk=request.data["climateId"])
+    destination.climate=climate_id
     
     destination.save()
     serializer = DestinationSerializer(destination)
@@ -78,5 +83,5 @@ class DestinationSerializer(serializers.ModelSerializer):
   dest_activities = DestActSerializer(many=True, read_only=True)
   class Meta:
     model=Destination
-    fields = ('id', 'name', 'bio', 'image', 'user', 'dest_activities')
+    fields = ('id', 'name', 'bio', 'image', 'user', 'dest_activities', 'climate')
     depth = 2
