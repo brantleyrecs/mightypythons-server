@@ -1,0 +1,18 @@
+[
+  {
+    "model": "destapi.activity",
+    "pk": 1,
+    "fields": {
+      "name": "Swimming",
+      "bio": "Get those feet wet"
+    }
+  },
+  {
+    "model": "destapi.activity",
+    "pk": 2,
+    "fields": {
+      "name": "Hiking",
+      "bio": "Very Sweaty But Fun"
+    }
+  }
+]
