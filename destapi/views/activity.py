@@ -14,9 +14,12 @@ class ActivityView(ViewSet):
         Returns:
             Response -- JSON serialized activity
         """
-        activity = Activity.objects.get(pk=pk)
-        serializer = ActivitySerializer(activity, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            activity = Activity.objects.get(pk=pk)
+            serializer = ActivitySerializer(activity, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Activity.DoesNotExist as ex:
+            return Response({'Activity does not exist': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
 
     def list(self, request):
@@ -49,16 +52,18 @@ class ActivityView(ViewSet):
         Returns:
           Response -- Empty body with 204 status code
         """
-
-        activity = Activity.objects.get(pk=pk)
+        try:
+            activity = Activity.objects.get(pk=pk)
       
-        activity.name = request.data["name"]
-        activity.bio = request.data["bio"]
+            activity.name = request.data["name"]
+            activity.bio = request.data["bio"]
 
-        activity.save()
+            activity.save()
         
-        serializer = ActivitySerializer(activity, many=False)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            serializer = ActivitySerializer(activity, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Activity.DoesNotExist as ex:
+            return Response({'Activity does not exist': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
     
     def destroy(self, response, pk):
         """Deletes Data
@@ -66,9 +71,11 @@ class ActivityView(ViewSet):
         Returns:
             Response: Empty body with 204 code
         """
+        
         activity = Activity.objects.get(pk=pk)
         activity.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+
         
 
 class ActivitySerializer(serializers.ModelSerializer):
