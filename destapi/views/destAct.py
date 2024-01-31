@@ -53,9 +53,12 @@ class DestActView(ViewSet):
         """
 
         destAct = DestAct.objects.get(pk=pk)
+        
+        destination = Destination.objects.get(pk=request.data['destination'])
+        activity = Activity.objects.get(pk=request.data['activity'])
       
-        destAct.destination = request.data["destination"],
-        destAct.activity = request.data["activity"]
+        destAct.destination = destination
+        destAct.activity = activity
 
         destAct.save()
         
