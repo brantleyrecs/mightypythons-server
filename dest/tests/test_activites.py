@@ -6,7 +6,7 @@ from destapi.models import Activity
 from .utils import create_data, refresh_data
 
 
-class TestActivites(APITestCase):
+class Testactivities(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -20,7 +20,7 @@ class TestActivites(APITestCase):
             "name": self.faker.name(),
             "bio": self.faker.sentence()
         }
-        response = self.client.post("/activites", new_activity)
+        response = self.client.post("/activities", new_activity)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -35,7 +35,7 @@ class TestActivites(APITestCase):
 
     def test_delete(self):
         activity_id = Activity.objects.all()[0].id
-        response = self.client.delete(f"/activites/{activity_id}")
+        response = self.client.delete(f"/activities/{activity_id}")
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse("data" in response)
@@ -50,7 +50,7 @@ class TestActivites(APITestCase):
             "bio": self.faker.sentence()
         }
         response = self.client.put(
-            f"/activites/{activity_id}", updated_activity, format='json')
+            f"/activities/{activity_id}", updated_activity, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -63,7 +63,7 @@ class TestActivites(APITestCase):
         self.assertEqual(db_activity.name, updated_activity["name"])
 
     def test_list(self):
-        response = self.client.get("/activites")
+        response = self.client.get("/activities")
         data = response.data
 
         self.assertEqual(len(data), len(self.activities))
@@ -76,7 +76,7 @@ class TestActivites(APITestCase):
 
     def test_details(self):
         activity = Activity.objects.all()[0]
-        response = self.client.get(f"/activites/{activity.id}")
+        response = self.client.get(f"/activities/{activity.id}")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
