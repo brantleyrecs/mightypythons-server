@@ -18,6 +18,7 @@ class TestDestinations(APITestCase):
     def test_create(self):
         climate = self.climates[0]
         user = self.users[0]
+        print(climate)
         new_destination= {
             "name": self.faker.name(),
             "bio": self.faker.sentence(),
@@ -30,13 +31,15 @@ class TestDestinations(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         data = response.data
+        
+        print(data)
 
         self.assertTrue("id" in data)
         self.assertTrue("name" in data)
         self.assertTrue("bio" in data)
         self.assertTrue("image" in data)
-        self.assertTrue("climate_id" in data)
-        self.assertTrue("user_id" in data)
+        self.assertTrue("climate" in data)
+        self.assertTrue("user" in data)
 
 
         db_destination = Destination.objects.get(pk=data["id"])
@@ -73,8 +76,8 @@ class TestDestinations(APITestCase):
         self.assertTrue("name" in data)
         self.assertTrue("bio" in data) 
         self.assertTrue("image" in data)
-        self.assertTrue("climate_id" in data)
-        self.assertTrue("user_id" in data)
+        self.assertTrue("climate" in data)
+        self.assertTrue("user" in data)
 
         db_destination = Destination.objects.get(pk=destination_id)
         self.assertEqual(db_destination.name, updated_destination["name"])
@@ -91,8 +94,8 @@ class TestDestinations(APITestCase):
         self.assertTrue("name" in first_destination)
         self.assertTrue("bio" in first_destination)
         self.assertTrue("image" in first_destination)
-        self.assertTrue("climate_id" in first_destination)
-        self.assertTrue("user_id" in first_destination)
+        self.assertTrue("climate" in first_destination)
+        self.assertTrue("user" in first_destination)
 
     def test_details(self):
         destination = Destination.objects.all()[0]
@@ -106,5 +109,3 @@ class TestDestinations(APITestCase):
         self.assertEqual(data["name"], destination.name)
         self.assertEqual(data["bio"], destination.bio)
         self.assertEqual(data["image"], destination.image)
-        self.assertEqual(data["climate_id"], destination.climate)
-        self.assertEqual(data["user_id"], destination.user)

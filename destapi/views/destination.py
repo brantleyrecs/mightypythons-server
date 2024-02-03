@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from rest_framework import serializers, status
 from rest_framework.decorators import action
-from destapi.models import Destination, User
+from destapi.models import Destination, User, DestAct, Activity, Climate
+from destapi.views.activity import ActivitySerializer
 
 class DestinationView(ViewSet):
   
@@ -11,19 +12,21 @@ class DestinationView(ViewSet):
     """getting single Destination"""
     destination = Destination.objects.get(pk=pk)
     serializer = DestinationSerializer(destination)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
   
   def list(self, request):
     """Getting all Destinations"""
     destination = Destination.objects.all()
     serializer = DestinationSerializer(destination, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
   
   def create(self, request):
     """Create Destination"""
     user_id = User.objects.get(pk=request.data["user_id"])
+    climate_id = Climate.objects.get(pk=request.data["climate_id"])
     
     destination = Destination.objects.create(
+      climate=climate_id,
       user=user_id,
       name=request.data["name"],
       bio=request.data["bio"],
@@ -32,7 +35,7 @@ class DestinationView(ViewSet):
     
     destination.save()
     serializer = DestinationSerializer(destination)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
   
   def update(self, request, pk):
     """Update Destination"""
@@ -44,21 +47,41 @@ class DestinationView(ViewSet):
     user_id=User.objects.get(pk=request.data["user_id"])
     destination.user=user_id
     
+    climate_id=Climate.objects.get(pk=request.data["climate_id"])
+    destination.climate=climate_id
+    
     destination.save()
     serializer = DestinationSerializer(destination)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
   
   def destroy(self, request, pk):
     """Delete Destination"""
     destination = Destination.objects.get(pk=pk)
     destination.delete()
     return Response(None, status=status.HTTP_204_NO_CONTENT)
+  
+  @action(methods=['get'], detail=True)
+  def activities(self, request, pk):
+    """Method to get all the items associated to a single order"""
+    activities = Activity.objects.all()
+    associated_destination = activities.filter(destination_id=pk)
+    
+    serializer = ActivitySerializer(associated_destination, many=True)
+    return Response(serializer.data)
+  
+class DestActSerializer(serializers.ModelSerializer):
+  name = serializers.ReadOnlyField(source='activity.name')
+  bio = serializers.ReadOnlyField(source='activity.bio')
+
+  class Meta:
+    model = DestAct
+    fields = ('id', 'name', 'bio')
 
 
 class DestinationSerializer(serializers.ModelSerializer):
   """serializer for Order"""
-  # items = OrderItemSerializer(many=True, read_only=True)
+  dest_activities = DestActSerializer(many=True, read_only=True)
   class Meta:
     model=Destination
-    fields = ('id', 'name', 'bio', 'image', 'user')
+    fields = ('id', 'name', 'bio', 'image', 'user', 'dest_activities', 'climate')
     depth = 2
