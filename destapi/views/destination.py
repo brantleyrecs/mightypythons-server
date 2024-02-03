@@ -21,7 +21,7 @@ class DestinationView(ViewSet):
   
   def create(self, request):
     """Create Destination"""
-    user_id = User.objects.get(pk=request.data["userId"])
+    user_id = User.objects.get(pk=request.data["user_id"])
     
     destination = Destination.objects.create(
       user=user_id,
@@ -41,7 +41,7 @@ class DestinationView(ViewSet):
     destination.bio=request.data["bio"]
     destination.image=request.data["image"]
     
-    user_id=User.objects.get(pk=request.data["userId"])
+    user_id=User.objects.get(pk=request.data["user_id"])
     destination.user=user_id
     
     destination.save()

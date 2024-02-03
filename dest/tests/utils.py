@@ -26,13 +26,13 @@ def create_data(cls):
         )
         cls.activities.append(activity)
 
-        for _ in range(1, 10):
+        for _ in range(0, 10):
             climate = Climate.objects.create(
                 name=cls.faker.name()
             )
             cls.climates.append(climate)
             
-
+            
             destination = Destination.objects.create(
                 name=cls.faker.name(),
                 bio=cls.faker.sentence(),
