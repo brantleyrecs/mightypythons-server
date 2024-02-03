@@ -42,8 +42,9 @@ class ActivityView(ViewSet):
             name = request.data["name"],
             bio = request.data["bio"],
         )
+        activity.save()
 
-        serializer = ActivitySerializer(activity, many=False)
+        serializer = ActivitySerializer(activity)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def update(self, request, pk):
