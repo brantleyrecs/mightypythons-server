@@ -22,8 +22,8 @@ class DestinationView(ViewSet):
   
   def create(self, request):
     """Create Destination"""
-    user_id = User.objects.get(pk=request.data["user_id"])
-    climate_id = Climate.objects.get(pk=request.data["climate_id"])
+    user_id = User.objects.get(pk=request.data["userId"])
+    climate_id = Climate.objects.get(pk=request.data["climateId"])
     
     destination = Destination.objects.create(
       climate=climate_id,
@@ -44,10 +44,10 @@ class DestinationView(ViewSet):
     destination.bio=request.data["bio"]
     destination.image=request.data["image"]
     
-    user_id=User.objects.get(pk=request.data["user_id"])
+    user_id=User.objects.get(pk=request.data["userId"])
     destination.user=user_id
     
-    climate_id=Climate.objects.get(pk=request.data["climate_id"])
+    climate_id=Climate.objects.get(pk=request.data["climateId"])
     destination.climate=climate_id
     
     destination.save()

@@ -23,8 +23,8 @@ class TestDestinations(APITestCase):
             "name": self.faker.name(),
             "bio": self.faker.sentence(),
             "image": self.faker.url(),
-            "climate_id": climate.id,
-            "user_id": user.id
+            "climateId": climate.id,
+            "userId": user.id
         }
         response = self.client.post("/destinations", new_destination)
 
@@ -63,8 +63,8 @@ class TestDestinations(APITestCase):
             "name": self.faker.sentence(nb_words=3),
             "bio": self.faker.sentence(),
             "image": self.faker.url(),
-            "climate_id": climate.id,
-            "user_id": user.id
+            "climateId": climate.id,
+            "userId": user.id
         }
         response = self.client.put(
             f"/destinations/{destination_id}", updated_destination, format='json')
