@@ -60,6 +60,17 @@ class DestinationView(ViewSet):
     destination.delete()
     return Response(None, status=status.HTTP_204_NO_CONTENT)
   
+  @action(methods=['post'], detail=True)
+  def dest_act(self, request, pk):
+    """Method to post an activity on a single destination"""
+    destination_id = Destination.objects.get(pk=pk)
+    activity_id = Activity.objects.get(pk=request.data["activity"])
+    dest_act = DestAct.objects.create(
+      destination=destination_id,
+      activity=activity_id,
+    )
+    return Response(status=status.HTTP_201_CREATED)
+  
   @action(methods=['get'], detail=True)
   def activities(self, request, pk):
     """Method to get all the items associated to a single order"""
