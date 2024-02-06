@@ -14,9 +14,13 @@ class DestActView(ViewSet):
         Returns:
             Response -- JSON serialized destination activity
         """
-        destAct = DestAct.objects.get(pk=pk)
-        serializer = DestActSerializer(destAct, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            destAct = DestAct.objects.get(pk=pk)
+            serializer = DestActSerializer(destAct, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except DestAct.DoesNotExist as ex:
+            return Response({'DestAct Join Table does not exist': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
 
 
     def list(self, request):

@@ -12,13 +12,13 @@ class DestinationView(ViewSet):
     """getting single Destination"""
     destination = Destination.objects.get(pk=pk)
     serializer = DestinationSerializer(destination)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
   
   def list(self, request):
     """Getting all Destinations"""
     destination = Destination.objects.all()
     serializer = DestinationSerializer(destination, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
   
   def create(self, request):
     """Create Destination"""
@@ -35,7 +35,7 @@ class DestinationView(ViewSet):
     
     destination.save()
     serializer = DestinationSerializer(destination)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
   
   def update(self, request, pk):
     """Update Destination"""
@@ -52,13 +52,24 @@ class DestinationView(ViewSet):
     
     destination.save()
     serializer = DestinationSerializer(destination)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
   
   def destroy(self, request, pk):
     """Delete Destination"""
     destination = Destination.objects.get(pk=pk)
     destination.delete()
     return Response(None, status=status.HTTP_204_NO_CONTENT)
+  
+  @action(methods=['post'], detail=True)
+  def dest_act(self, request, pk):
+    """Method to post an activity on a single destination"""
+    destination_id = Destination.objects.get(pk=pk)
+    activity_id = Activity.objects.get(pk=request.data["activity"])
+    dest_act = DestAct.objects.create(
+      destination=destination_id,
+      activity=activity_id,
+    )
+    return Response(status=status.HTTP_201_CREATED)
   
   @action(methods=['get'], detail=True)
   def activities(self, request, pk):

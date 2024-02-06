@@ -14,9 +14,13 @@ class ClimateView(ViewSet):
         Returns:
             Response -- JSON serialized climate
         """
-        climate = Climate.objects.get(pk=pk)
-        serializer = ClimateSerializer(climate, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            climate = Climate.objects.get(pk=pk)
+            serializer = ClimateSerializer(climate, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Climate.DoesNotExist as ex:
+            return Response({'Climate does not exist': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
 
 
     def list(self, request):
