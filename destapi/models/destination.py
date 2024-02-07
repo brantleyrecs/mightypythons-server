@@ -8,3 +8,4 @@ class Destination(models.Model):
   image=models.CharField(max_length=50)
   climate=models.ForeignKey(Climate, on_delete=models.CASCADE, related_name='climate')
   user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+  favorite = models.BooleanField(default=False)

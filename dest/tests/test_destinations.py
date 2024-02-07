@@ -18,7 +18,6 @@ class TestDestinations(APITestCase):
     def test_create(self):
         climate = self.climates[0]
         user = self.users[0]
-        print(climate)
         new_destination= {
             "name": self.faker.name(),
             "bio": self.faker.sentence(),
@@ -31,8 +30,6 @@ class TestDestinations(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         data = response.data
-        
-        print(data)
 
         self.assertTrue("id" in data)
         self.assertTrue("name" in data)
