@@ -31,6 +31,7 @@ class DestinationView(ViewSet):
       name=request.data["name"],
       bio=request.data["bio"],
       image=request.data["image"],
+      favorite=request.data["favorite"],
     )
     
     destination.save()
@@ -43,6 +44,7 @@ class DestinationView(ViewSet):
     destination.name=request.data["name"]
     destination.bio=request.data["bio"]
     destination.image=request.data["image"]
+    destination.favorite=request.data["favorite"]
     
     user_id=User.objects.get(pk=request.data["userId"])
     destination.user=user_id
@@ -94,5 +96,5 @@ class DestinationSerializer(serializers.ModelSerializer):
   dest_activities = DestActSerializer(many=True, read_only=True)
   class Meta:
     model=Destination
-    fields = ('id', 'name', 'bio', 'image', 'user', 'dest_activities', 'climate')
+    fields = ('id', 'name', 'bio', 'image', 'user', 'dest_activities', 'climate', 'favorite')
     depth = 2
